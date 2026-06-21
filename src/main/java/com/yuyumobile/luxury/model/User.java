@@ -10,14 +10,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
+
+    private String phone;
+
+    private Boolean verified = false;
+    private String verificationToken;
 
     private String fullName;
     private String address;
@@ -32,6 +37,15 @@ public class User {
     public User() {
     }
 
+    public User(String username, String password, String email, String phone, String role) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.verified = false;
+    }
+
     public User(String username, String password, String email, String fullName, String address, String city, String zipCode, String country, String role) {
         this.username = username;
         this.password = password;
@@ -42,6 +56,7 @@ public class User {
         this.zipCode = zipCode;
         this.country = country;
         this.role = role;
+        this.verified = true; // Seeded/complete profiles verified by default
     }
 
     // Getters and Setters
@@ -123,5 +138,29 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
     }
 }

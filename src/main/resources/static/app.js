@@ -1954,17 +1954,41 @@ window.addEventListener("DOMContentLoaded", () => {
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const errEl = document.getElementById("registerErrorMessage");
+      errEl.style.color = "#ff4d4d";
       errEl.textContent = "";
 
+      const email = document.getElementById("regEmail").value.trim();
+      const phone = document.getElementById("regPhone").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const repeatPassword = document.getElementById("regRepeatPassword").value;
+
+      if (!email && !phone) {
+        errEl.textContent = "Either email or phone number is required.";
+        return;
+      }
+
+      if (!password || !repeatPassword) {
+        errEl.textContent = "Please fill out both password fields.";
+        return;
+      }
+
+      if (password !== repeatPassword) {
+        errEl.textContent = "Passwords do not match.";
+        return;
+      }
+
+      // Strong password regex complexity check
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,50}$/;
+      if (!passwordRegex.test(password)) {
+        errEl.textContent = "Password must be 8-50 chars, containing uppercase, lowercase, numbers, and at least one special character (@$!%*?&.).";
+        return;
+      }
+
       const payload = {
-        username: document.getElementById("regUser").value,
-        email: document.getElementById("regEmail").value,
-        password: document.getElementById("regPassword").value,
-        fullName: document.getElementById("regName").value,
-        address: document.getElementById("regAddress").value,
-        city: document.getElementById("regCity").value,
-        zipCode: document.getElementById("regZip").value,
-        country: document.getElementById("regCountry").value
+        email: email,
+        phone: phone,
+        password: password,
+        repeatPassword: repeatPassword
       };
 
       fetch("/api/auth/register", {
@@ -1979,12 +2003,19 @@ window.addEventListener("DOMContentLoaded", () => {
         return res.json();
       })
       .then(data => {
-        localStorage.setItem("yuyu_user", JSON.stringify(data));
-        updateAuthState();
-        closeAuthModal();
-        registerForm.reset();
+        if (data.status === "VERIFICATION_PENDING") {
+          errEl.style.color = "#00e676";
+          errEl.textContent = data.message;
+          registerForm.reset();
+        } else {
+          localStorage.setItem("yuyu_user", JSON.stringify(data));
+          updateAuthState();
+          closeAuthModal();
+          registerForm.reset();
+        }
       })
       .catch(err => {
+        errEl.style.color = "#ff4d4d";
         errEl.textContent = err.message;
       });
     });

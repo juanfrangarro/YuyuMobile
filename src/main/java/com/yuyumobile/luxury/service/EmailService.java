@@ -35,4 +35,25 @@ public class EmailService {
 
         LOGGER.info("\n" + body.toString());
     }
+
+    /**
+     * Sends verification link to registered client email address.
+     */
+    public void sendVerificationEmail(com.yuyumobile.luxury.model.User user) {
+        String recipient = user.getEmail();
+        String subject = "🔑 VERIFY YOUR YUYU MOBILE LUXURY PORTAL ACCESS";
+
+        StringBuilder body = new StringBuilder();
+        body.append("========================================================================\n");
+        body.append("                  YUYU MOBILE - ACCESS VERIFICATION REQUIRED            \n");
+        body.append("========================================================================\n");
+        body.append("To: ").append(recipient).append("\n");
+        body.append("Subject: ").append(subject).append("\n\n");
+        body.append("Welcome to YUYU MOBILE. Please verify your email coordinates using the link below:\n\n");
+        body.append("👉 http://localhost:8080/api/auth/verify?token=").append(user.getVerificationToken()).append("\n\n");
+        body.append("If you did not request registration, please disregard this transmission.\n");
+        body.append("========================================================================\n");
+
+        LOGGER.info("\n" + body.toString());
+    }
 }

@@ -615,45 +615,22 @@
       <!-- Register View -->
       <div id="registerFormContainer" style="display: none;">
         <form id="registerForm">
-          <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+          <div class="form-grid" style="grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px;">
             <div class="form-field">
-              <label for="regUser">Username</label>
-              <input type="text" id="regUser" required placeholder="e.g. jsterling">
+              <label for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" placeholder="name@domain.com">
             </div>
             <div class="form-field">
-              <label for="regEmail">Email</label>
-              <input type="email" id="regEmail" required placeholder="e.g. julian@domain.com">
+              <label for="regPhone">Phone Number</label>
+              <input type="tel" id="regPhone" placeholder="e.g. +34 600 000 000">
             </div>
-            <div class="form-field" style="grid-column: span 2;">
+            <div class="form-field">
               <label for="regPassword">Password</label>
-              <input type="password" id="regPassword" required placeholder="Choose secure password">
-            </div>
-            <div class="form-field" style="grid-column: span 2;">
-              <label for="regName">Full Name</label>
-              <input type="text" id="regName" placeholder="Sir Julian Sterling">
-            </div>
-            <div class="form-field" style="grid-column: span 2;">
-              <label for="regAddress">Address Details</label>
-              <input type="text" id="regAddress" placeholder="Suite or Estate, Street Details">
+              <input type="password" id="regPassword" required placeholder="8-50 chars, upper/lower/digit/spec char">
             </div>
             <div class="form-field">
-              <label for="regCity">City</label>
-              <input type="text" id="regCity" placeholder="Geneva">
-            </div>
-            <div class="form-field">
-              <label for="regZip">Postal Code</label>
-              <input type="text" id="regZip" placeholder="1201">
-            </div>
-            <div class="form-field" style="grid-column: span 2;">
-              <label for="regCountry">Country/Region</label>
-              <select id="regCountry">
-                <option value="US">United States</option>
-                <option value="CH" selected>Switzerland</option>
-                <option value="AE">United Arab Emirates</option>
-                <option value="ES">Spain</option>
-                <option value="FR">France</option>
-                <option value="RU">Russian Federation</option>
-              </select>
+              <label for="regRepeatPassword">Repeat Password</label>
+              <input type="password" id="regRepeatPassword" required placeholder="Repeat password">
             </div>
           </div>
           <div class="auth-error-message" id="registerErrorMessage" style="color: #ff4d4d; font-size: 0.85rem; margin-bottom: 16px; min-height: 20px;"></div>
