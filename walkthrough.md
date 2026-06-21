@@ -58,3 +58,39 @@ Offline developers without Stripe Dashboard credentials needed to execute and te
 ### Decision
 * Built a **mock fall-through processor** in `PaymentService`. If no valid `stripe.api.key` is detected in configurations, the service automatically generates simulated Stripe tokens (`pi_mock_...` and `re_mock_...`).
 * Integrated matching mock triggers into `/api/payments/webhook` to handle checkout states cleanly during local testing.
+
+---
+
+## 5. Lightweight User Authentication & Profile Management
+
+### Trigger
+Requirement to sign up/login users, modify profiles, and fill out shipping details automatically.
+
+### Decision
+* Built a self-contained JPA `User` entity and repository.
+* Implemented `AuthController.java` with `/api/auth/register`, `/api/auth/login`, and PUT `/api/auth/profile` endpoints.
+* Utilized native Java standard `SHA-256` hashing with `MessageDigest` to avoid bringing in complex Spring Security dependencies that could break the client SPA router.
+
+---
+
+## 6. Administrator Control Panel (Ledger Table)
+
+### Trigger
+Administration needed a secure way to visualize transaction success, total values, customer names, and emails.
+
+### Decision
+* Created GET `/api/payments/orders` endpoint inside `PaymentController.java` to list all transaction logs.
+* Added an Admin Panel navigation link that fetches orders dynamically and renders them in a premium scrollable table (only accessible to users with the `ADMIN` role).
+* Seeded a default `admin` user with email `grindelsoftware@gmail.com` and password `admin123` on startup.
+
+---
+
+## 7. Email Notification Alerts to grindelsoftware@gmail.com
+
+### Trigger
+Automatic notification of the administrator when checkout succeeds.
+
+### Decision
+* Created `EmailService.java` which compiles order reference IDs, client coordinates, and transaction status logs.
+* Connected `EmailService` to trigger notifications when Stripe mock transactions succeed or when the production Stripe webhook transitions status to `SUCCEEDED`.
+* Outfitted the mail system with a console logger fallback so development teams can verify emails without active SMTP configs.

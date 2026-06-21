@@ -100,6 +100,7 @@
         <a href="#showcase" data-t="nav_showcase">Showcase</a>
         <a href="#features" data-t="nav_features">Guarantees</a>
         <a href="#customizer" data-t="nav_customizer">Catalog</a>
+        <a href="#admin" id="adminDashboardLink" style="display:none; color: var(--gold-start); font-weight: 500;">Admin Panel</a>
       </nav>
 
       <div class="header-actions">
@@ -118,6 +119,16 @@
             <button data-lang="fr">Français (FR)</button>
             <button data-lang="ru">Русский (RU)</button>
           </div>
+        </div>
+
+        <!-- User Account Buttons -->
+        <div class="auth-actions-group" id="authActionsGroup">
+          <button class="icon-button" id="authHeaderBtn" title="Account Access" aria-label="Account Access">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </button>
         </div>
 
         <!-- Theme Toggle -->
@@ -565,6 +576,194 @@
       </div>
       
       <button class="btn btn-primary btn-gold btn-block" id="successCloseBtn" data-t="btn_done">Close Showcase</button>
+    </div>
+  </div>
+
+  <!-- User Authentication Modal Overlay -->
+  <div class="modal-backdrop" id="authModalBackdrop" aria-hidden="true">
+    <div class="product-detail-modal-card" style="max-width: 500px; padding: 40px;">
+      <button class="close-modal-btn" id="closeAuthModalBtn" aria-label="Close panel">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="auth-tabs" style="display: flex; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px; padding-bottom: 12px;">
+        <button class="auth-tab-btn active" id="tabLoginBtn" style="background: none; border: none; color: var(--text-color); font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 500; cursor: pointer; opacity: 1; padding: 0 0 8px 0;">Sign In</button>
+        <button class="auth-tab-btn" id="tabRegisterBtn" style="background: none; border: none; color: var(--text-color); font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 500; cursor: pointer; opacity: 0.5; padding: 0 0 8px 0;">Register</button>
+      </div>
+
+      <!-- Login View -->
+      <div id="loginFormContainer">
+        <form id="loginForm">
+          <div class="form-field" style="margin-bottom: 16px;">
+            <label for="loginUser">Username / Email</label>
+            <input type="text" id="loginUser" required placeholder="Enter username or email">
+          </div>
+          <div class="form-field" style="margin-bottom: 24px;">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" required placeholder="Enter password">
+          </div>
+          <div class="auth-error-message" id="loginErrorMessage" style="color: #ff4d4d; font-size: 0.85rem; margin-bottom: 16px; min-height: 20px;"></div>
+          <button type="submit" class="btn btn-primary btn-gold btn-block">
+            <span class="btn-text">Authenticate</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Register View -->
+      <div id="registerFormContainer" style="display: none;">
+        <form id="registerForm">
+          <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <div class="form-field">
+              <label for="regUser">Username</label>
+              <input type="text" id="regUser" required placeholder="e.g. jsterling">
+            </div>
+            <div class="form-field">
+              <label for="regEmail">Email</label>
+              <input type="email" id="regEmail" required placeholder="e.g. julian@domain.com">
+            </div>
+            <div class="form-field" style="grid-column: span 2;">
+              <label for="regPassword">Password</label>
+              <input type="password" id="regPassword" required placeholder="Choose secure password">
+            </div>
+            <div class="form-field" style="grid-column: span 2;">
+              <label for="regName">Full Name</label>
+              <input type="text" id="regName" placeholder="Sir Julian Sterling">
+            </div>
+            <div class="form-field" style="grid-column: span 2;">
+              <label for="regAddress">Address Details</label>
+              <input type="text" id="regAddress" placeholder="Suite or Estate, Street Details">
+            </div>
+            <div class="form-field">
+              <label for="regCity">City</label>
+              <input type="text" id="regCity" placeholder="Geneva">
+            </div>
+            <div class="form-field">
+              <label for="regZip">Postal Code</label>
+              <input type="text" id="regZip" placeholder="1201">
+            </div>
+            <div class="form-field" style="grid-column: span 2;">
+              <label for="regCountry">Country/Region</label>
+              <select id="regCountry">
+                <option value="US">United States</option>
+                <option value="CH" selected>Switzerland</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="ES">Spain</option>
+                <option value="FR">France</option>
+                <option value="RU">Russian Federation</option>
+              </select>
+            </div>
+          </div>
+          <div class="auth-error-message" id="registerErrorMessage" style="color: #ff4d4d; font-size: 0.85rem; margin-bottom: 16px; min-height: 20px;"></div>
+          <button type="submit" class="btn btn-primary btn-gold btn-block">
+            <span class="btn-text">Create Account</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Modal Overlay -->
+  <div class="modal-backdrop" id="profileModalBackdrop" aria-hidden="true">
+    <div class="product-detail-modal-card" style="max-width: 500px; padding: 40px;">
+      <button class="close-modal-btn" id="closeProfileModalBtn" aria-label="Close panel">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <h2 class="section-title" style="margin-bottom: 24px; text-align: left; font-size: 1.5rem;">Your Luxury coordinates</h2>
+
+      <form id="profileForm">
+        <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px;">
+          <div class="form-field" style="grid-column: span 2;">
+            <label>Username</label>
+            <input type="text" id="profUser" disabled style="opacity: 0.5; background: rgba(255,255,255,0.05);">
+          </div>
+          <div class="form-field" style="grid-column: span 2;">
+            <label for="profEmail">Email</label>
+            <input type="email" id="profEmail" required>
+          </div>
+          <div class="form-field" style="grid-column: span 2;">
+            <label for="profPassword">New Password (leave empty to keep same)</label>
+            <input type="password" id="profPassword" placeholder="Enter new password">
+          </div>
+          <div class="form-field" style="grid-column: span 2;">
+            <label for="profName">Full Name</label>
+            <input type="text" id="profName" required>
+          </div>
+          <div class="form-field" style="grid-column: span 2;">
+            <label for="profAddress">Address Details</label>
+            <input type="text" id="profAddress" required>
+          </div>
+          <div class="form-field">
+            <label for="profCity">City</label>
+            <input type="text" id="profCity" required>
+          </div>
+          <div class="form-field">
+            <label for="profZip">Postal Code</label>
+            <input type="text" id="profZip" required>
+          </div>
+          <div class="form-field" style="grid-column: span 2;">
+            <label for="profCountry">Country/Region</label>
+            <select id="profCountry" required>
+              <option value="US">United States</option>
+              <option value="CH">Switzerland</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="ES">Spain</option>
+              <option value="FR">France</option>
+              <option value="RU">Russian Federation</option>
+            </select>
+          </div>
+        </div>
+        <div class="auth-error-message" id="profileMessage" style="color: #00e676; font-size: 0.85rem; margin-bottom: 16px; min-height: 20px;"></div>
+        <div style="display: flex; gap: 12px;">
+          <button type="submit" class="btn btn-primary btn-gold" style="flex: 1;">
+            <span class="btn-text">Save Details</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-platinum" id="logoutBtn" style="flex: 1;">
+            <span class="btn-text">Sign Out</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Panel Dashboard Overlay -->
+  <div class="modal-backdrop" id="adminPanelBackdrop" aria-hidden="true">
+    <div class="product-detail-modal-card" style="max-width: 900px; padding: 40px; width: 90%;">
+      <button class="close-modal-btn" id="closeAdminBtn" aria-label="Close admin dashboard">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <h2 class="section-title" style="margin-bottom: 24px; text-align: left; font-size: 1.5rem; color: var(--gold-start);">Administrator Control Panel</h2>
+      <h3 style="font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 300; margin-bottom: 16px; opacity: 0.8;">Vetted Acquisition Requests Ledger</h3>
+
+      <div class="orders-table-wrapper" style="overflow-x: auto; max-height: 450px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; background: rgba(0,0,0,0.2);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-family: 'Inter', sans-serif; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02);">
+              <th style="padding: 12px 16px;">Reference ID</th>
+              <th style="padding: 12px 16px;">Client Name</th>
+              <th style="padding: 12px 16px;">Concierge Email</th>
+              <th style="padding: 12px 16px; text-align: right;">Amount</th>
+              <th style="padding: 12px 16px; text-align: center;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="adminOrdersTableBody">
+            <!-- Dynamically populated rows -->
+            <tr>
+              <td colspan="5" style="padding: 24px; text-align: center; opacity: 0.5;">No transactions recorded.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 

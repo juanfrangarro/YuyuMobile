@@ -29,10 +29,12 @@ public class PaymentService {
     private String stripeApiKey;
 
     private final TransactionRepository transactionRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public PaymentService(TransactionRepository transactionRepository) {
+    public PaymentService(TransactionRepository transactionRepository, EmailService emailService) {
         this.transactionRepository = transactionRepository;
+        this.emailService = emailService;
     }
 
     @PostConstruct
@@ -62,6 +64,18 @@ public class PaymentService {
             paymentIntentId = "pi_mock_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
             clientSecret = paymentIntentId + "_secret_mock";
             LOGGER.info(">>> Simulated Stripe PaymentIntent created locally: " + paymentIntentId);
+            
+            Transaction tx = new Transaction();
+            tx.setStripePaymentIntentId(paymentIntentId);
+            tx.setAmount(amount);
+            tx.setCurrency(currency.toUpperCase());
+            tx.setCustomerName(customerName);
+            tx.setCustomerEmail(customerEmail);
+            tx.setStatus(TransactionStatus.SUCCEEDED); // succeed immediately in mock
+            
+            Transaction savedTx = transactionRepository.save(tx);
+            emailService.sendAdminNotification(savedTx);
+            return savedTx;
         } else {
             try {
                 PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
@@ -142,9 +156,21 @@ public class PaymentService {
     public void updateTransactionStatus(String stripePaymentIntentId, TransactionStatus newStatus) {
         transactionRepository.findByStripePaymentIntentId(stripePaymentIntentId)
                 .ifPresent(tx -> {
+                    TransactionStatus oldStatus = tx.getStatus();
                     tx.setStatus(newStatus);
                     transactionRepository.save(tx);
                     LOGGER.info(">>> Transaction " + stripePaymentIntentId + " updated to " + newStatus);
+                    
+                    if (newStatus == TransactionStatus.SUCCEEDED && oldStatus != TransactionStatus.SUCCEEDED) {
+                        emailService.sendAdminNotification(tx);
+                    }
                 });
+    }
+
+    /**
+     * Lists all transaction ledgers for admin dashboard visualization.
+     */
+    public java.util.List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
     }
 }

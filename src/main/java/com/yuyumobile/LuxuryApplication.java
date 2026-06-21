@@ -21,7 +21,7 @@ public class LuxuryApplication {
      * Seeds the database with default luxury certified pre-owned configurations on start.
      */
     @Bean
-    public CommandLineRunner databaseSeeder(PhoneRepository phoneRepository) {
+    public CommandLineRunner databaseSeeder(PhoneRepository phoneRepository, com.yuyumobile.luxury.repository.UserRepository userRepository) {
         return args -> {
             if (phoneRepository.count() == 0) {
                 Phone gold = new Phone();
@@ -65,6 +65,35 @@ public class LuxuryApplication {
 
                 phoneRepository.saveAll(List.of(gold, obsidian, platinum));
                 System.out.println(">>> Relational database successfully pre-loaded with luxury certified pre-owned smartphone assets.");
+            }
+
+            if (userRepository.findByUsername("admin").isEmpty()) {
+                String pass = "admin123";
+                try {
+                    java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+                    byte[] hash = digest.digest(pass.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                    StringBuilder hexString = new StringBuilder();
+                    for (byte b : hash) {
+                        String hex = Integer.toHexString(0xff & b);
+                        if (hex.length() == 1) hexString.append('0');
+                        hexString.append(hex);
+                    }
+                    com.yuyumobile.luxury.model.User admin = new com.yuyumobile.luxury.model.User(
+                        "admin",
+                        hexString.toString(),
+                        "grindelsoftware@gmail.com",
+                        "Grindel Administrator",
+                        "Edificio G, Planta 4",
+                        "Madrid",
+                        "28001",
+                        "ES",
+                        "ADMIN"
+                    );
+                    userRepository.save(admin);
+                    System.out.println(">>> Seeded default administrator account: admin / admin123 (grindelsoftware@gmail.com)");
+                } catch (Exception e) {
+                    System.err.println(">>> Failed to seed administrator user: " + e.getMessage());
+                }
             }
         };
     }

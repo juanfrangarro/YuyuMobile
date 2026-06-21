@@ -81,9 +81,10 @@ Exposes endpoints for processing Stripe transactions, handling refunds, and pars
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| **POST** | `/api/payments/create-intent` | Initiates Stripe Payment Intent, writing a `PENDING` log into the ledger. |
+| **POST** | `/api/payments/create-intent` | Initiates Stripe Payment Intent, writing a `PENDING` log into the ledger (or succeeds immediately in mock). |
 | **POST** | `/api/payments/refund` | Issues a Stripe Refund, transitioning the local transaction status to `REFUNDED`. |
 | **POST** | `/api/payments/webhook` | Receives signature-verified callback webhooks from Stripe network. |
+| **GET** | `/api/payments/orders` | Retrieves all transaction ledgers (available for users with ADMIN role). |
 
 #### Request Payload Example (`POST /api/payments/create-intent`)
 ```json
@@ -94,6 +95,22 @@ Exposes endpoints for processing Stripe transactions, handling refunds, and pars
   "customerEmail": "julian@sterling.luxury"
 }
 ```
+
+---
+
+### 3. `AuthController` (Base Path: `/api/auth`)
+
+Manages user registration, authentication session logs, and personal shipping coordinate profile updates.
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| **POST** | `/api/auth/register` | Registers a new account, hashing passwords with SHA-256. |
+| **POST** | `/api/auth/login` | Authenticates user credentials, returning user profile details. |
+| **PUT** | `/api/auth/profile` | Modifies account profile coordinates and passwords. |
+
+#### Seeded Accounts on Startup
+The seeder bean checks and seeds:
+* **Role:** `ADMIN` | **Username:** `admin` | **Password:** `admin123` | **Email:** `grindelsoftware@gmail.com`
 
 ---
 

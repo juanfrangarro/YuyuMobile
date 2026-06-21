@@ -1399,16 +1399,34 @@ const setupCheckoutForm = () => {
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = `<span class="btn-text">${state.language === "ar" ? "قيد التفويض البнки..." : "Authorizing Transaction..."}</span>`;
 
-    setTimeout(() => {
+    let sub = 0;
+    state.cart.forEach(item => sub += item.product.price * item.quantity);
+    if (state.selectedPackaging) sub += 150.00;
+
+    const customerName = document.getElementById("fullName").value;
+    const customerEmail = email.value;
+
+    fetch("/api/payments/create-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: sub,
+        currency: "EUR",
+        customerName: customerName,
+        customerEmail: customerEmail
+      })
+    })
+    .then(res => {
+      if (!res.ok) {
+        return res.text().then(text => { throw new Error(text); });
+      }
+      return res.json();
+    })
+    .then(transaction => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalText;
-      
-      let sub = 0;
-      state.cart.forEach(item => sub += item.product.price * item.quantity);
-      if (state.selectedPackaging) sub += 150.00;
 
-      const referenceId = `#MN-${Math.floor(10000 + Math.random() * 90000)}`;
-      document.getElementById("receiptId").textContent = referenceId;
+      document.getElementById("receiptId").textContent = transaction.stripePaymentIntentId;
       document.getElementById("receiptAmount").textContent = formatCurrency(sub);
       
       const backdrop = document.getElementById("successModalBackdrop");
@@ -1417,7 +1435,12 @@ const setupCheckoutForm = () => {
       state.cart = [];
       renderCart();
       form.reset();
-    }, 2000);
+    })
+    .catch(err => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
+      paymentErrors.textContent = "Payment Authorization Failed: " + err.message;
+    });
   });
 
   const successCloseBtn = document.getElementById("successCloseBtn");
@@ -1636,6 +1659,145 @@ const drawShowcase = () => {
   ctx.restore();
 };
 
+// --- Authentication & Profile Controllers ---
+const updateAuthState = () => {
+  const userJson = localStorage.getItem("yuyu_user");
+  const adminLink = document.getElementById("adminDashboardLink");
+  const authBtn = document.getElementById("authHeaderBtn");
+  
+  if (userJson) {
+    const user = JSON.parse(userJson);
+    if (authBtn) {
+      authBtn.innerHTML = `
+        <span style="font-family:'Outfit', sans-serif; font-size:0.8rem; font-weight:500; color:var(--gold-start); border:1px solid rgba(223,186,115,0.3); padding:4px 10px; border-radius:15px; background:rgba(223,186,115,0.05); display:inline-block;">
+          ${user.username.toUpperCase()}
+        </span>
+      `;
+    }
+    
+    if (user.role === "ADMIN") {
+      if (adminLink) adminLink.style.display = "inline-block";
+    } else {
+      if (adminLink) adminLink.style.display = "none";
+    }
+    
+    // Auto-fill checkout fields if empty
+    const fullName = document.getElementById("fullName");
+    const email = document.getElementById("shippingEmail");
+    const address = document.getElementById("addressLine1");
+    const city = document.getElementById("city");
+    const zip = document.getElementById("zipCode");
+    const country = document.getElementById("countrySelect");
+    
+    if (fullName && !fullName.value) fullName.value = user.fullName || "";
+    if (email && !email.value) email.value = user.email || "";
+    if (address && !address.value) address.value = user.address || "";
+    if (city && !city.value) city.value = user.city || "";
+    if (zip && !zip.value) zip.value = user.zipCode || "";
+    if (country && user.country) country.value = user.country;
+  } else {
+    if (authBtn) {
+      authBtn.innerHTML = `
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      `;
+    }
+    if (adminLink) adminLink.style.display = "none";
+  }
+};
+
+const openAuthModal = () => {
+  const modal = document.getElementById("authModalBackdrop");
+  if (modal) modal.classList.add("active");
+  document.getElementById("loginErrorMessage").textContent = "";
+  document.getElementById("registerErrorMessage").textContent = "";
+};
+
+const closeAuthModal = () => {
+  const modal = document.getElementById("authModalBackdrop");
+  if (modal) modal.classList.remove("active");
+};
+
+const openProfileModal = () => {
+  const modal = document.getElementById("profileModalBackdrop");
+  const userJson = localStorage.getItem("yuyu_user");
+  if (!modal || !userJson) return;
+
+  const user = JSON.parse(userJson);
+  document.getElementById("profUser").value = user.username;
+  document.getElementById("profEmail").value = user.email || "";
+  document.getElementById("profName").value = user.fullName || "";
+  document.getElementById("profAddress").value = user.address || "";
+  document.getElementById("profCity").value = user.city || "";
+  document.getElementById("profZip").value = user.zipCode || "";
+  document.getElementById("profCountry").value = user.country || "CH";
+  document.getElementById("profileMessage").textContent = "";
+
+  modal.classList.add("active");
+};
+
+const closeProfileModal = () => {
+  const modal = document.getElementById("profileModalBackdrop");
+  if (modal) modal.classList.remove("active");
+};
+
+const openAdminDashboard = () => {
+  const modal = document.getElementById("adminPanelBackdrop");
+  if (!modal) return;
+  
+  modal.classList.add("active");
+  fetchAdminOrders();
+};
+
+const closeAdminDashboard = () => {
+  const modal = document.getElementById("adminPanelBackdrop");
+  if (modal) modal.classList.remove("active");
+};
+
+const fetchAdminOrders = () => {
+  const tbody = document.getElementById("adminOrdersTableBody");
+  if (!tbody) return;
+  
+  tbody.innerHTML = `<tr><td colspan="5" style="padding:24px; text-align:center; opacity:0.5;">Querying ledgers...</td></tr>`;
+  
+  fetch("/api/payments/orders")
+    .then(res => res.json())
+    .then(data => {
+      tbody.innerHTML = "";
+      if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="padding:24px; text-align:center; opacity:0.5;">No transactions recorded.</td></tr>`;
+        return;
+      }
+      
+      data.forEach(order => {
+        let statusColor = "#ff4d4d"; // Failed
+        if (order.status === "SUCCEEDED") statusColor = "#00e676";
+        else if (order.status === "PENDING") statusColor = "#ffeb3b";
+        else if (order.status === "REFUNDED") statusColor = "#2196f3";
+        
+        const rowHTML = `
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+            <td style="padding:12px 16px; font-family:monospace; color:rgba(255,255,255,0.6);">${order.stripePaymentIntentId}</td>
+            <td style="padding:12px 16px; font-weight:500;">${order.customerName}</td>
+            <td style="padding:12px 16px; opacity:0.8;">${order.customerEmail}</td>
+            <td style="padding:12px 16px; text-align:right; font-weight:600; color:var(--gold-start);">${order.amount.toFixed(2)} ${order.currency}</td>
+            <td style="padding:12px 16px; text-align:center;">
+              <span style="color:${statusColor}; font-size:0.75rem; font-weight:600; text-transform:uppercase; border:1px solid ${statusColor}; padding:2px 8px; border-radius:4px; background:rgba(0,0,0,0.1); display:inline-block;">
+                ${order.status}
+              </span>
+            </td>
+          </tr>
+        `;
+        tbody.insertAdjacentHTML("beforeend", rowHTML);
+      });
+    })
+    .catch(err => {
+      tbody.innerHTML = `<tr><td colspan="5" style="padding:24px; text-align:center; color:#ff4d4d;">Failed to load order logs: ${err.message}</td></tr>`;
+    });
+};
+
 // Global helper bind for slide controllers
 window.shiftCardCarousel = shiftCardCarousel;
 window.openProductDetail = openProductDetail;
@@ -1685,7 +1847,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const modalCarouselPrev = document.getElementById("modalCarouselPrev");
   const modalCarouselNext = document.getElementById("modalCarouselNext");
   const detailAllocateBtn = document.getElementById("detailAllocateBtn");
-
+ 
   if (closeDetailModalBtn) closeDetailModalBtn.addEventListener("click", closeProductDetail);
   if (detailModalBackdrop) {
     detailModalBackdrop.addEventListener("click", (e) => {
@@ -1695,7 +1857,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (modalCarouselPrev) modalCarouselPrev.addEventListener("click", () => shiftModalCarousel(-1));
   if (modalCarouselNext) modalCarouselNext.addEventListener("click", () => shiftModalCarousel(1));
-
+ 
   if (detailAllocateBtn) {
     detailAllocateBtn.addEventListener("click", () => {
       if (state.activeDetailProductId) {
@@ -1705,6 +1867,220 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // User Accounts Event Handlers
+  const authHeaderBtn = document.getElementById("authHeaderBtn");
+  const closeAuthModalBtn = document.getElementById("closeAuthModalBtn");
+  const authModalBackdrop = document.getElementById("authModalBackdrop");
+  const tabLoginBtn = document.getElementById("tabLoginBtn");
+  const tabRegisterBtn = document.getElementById("tabRegisterBtn");
+  const loginFormContainer = document.getElementById("loginFormContainer");
+  const registerFormContainer = document.getElementById("registerFormContainer");
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const closeProfileModalBtn = document.getElementById("closeProfileModalBtn");
+  const profileModalBackdrop = document.getElementById("profileModalBackdrop");
+  const profileForm = document.getElementById("profileForm");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const adminDashboardLink = document.getElementById("adminDashboardLink");
+  const closeAdminBtn = document.getElementById("closeAdminBtn");
+  const adminPanelBackdrop = document.getElementById("adminPanelBackdrop");
+
+  if (authHeaderBtn) {
+    authHeaderBtn.addEventListener("click", () => {
+      if (localStorage.getItem("yuyu_user")) {
+        openProfileModal();
+      } else {
+        openAuthModal();
+      }
+    });
+  }
+  
+  if (closeAuthModalBtn) closeAuthModalBtn.addEventListener("click", closeAuthModal);
+  if (authModalBackdrop) {
+    authModalBackdrop.addEventListener("click", (e) => {
+      if (e.target === authModalBackdrop) closeAuthModal();
+    });
+  }
+
+  // Tab switching
+  if (tabLoginBtn && tabRegisterBtn) {
+    tabLoginBtn.addEventListener("click", () => {
+      tabLoginBtn.style.opacity = "1";
+      tabRegisterBtn.style.opacity = "0.5";
+      loginFormContainer.style.display = "block";
+      registerFormContainer.style.display = "none";
+    });
+    tabRegisterBtn.addEventListener("click", () => {
+      tabRegisterBtn.style.opacity = "1";
+      tabLoginBtn.style.opacity = "0.5";
+      loginFormContainer.style.display = "none";
+      registerFormContainer.style.display = "block";
+    });
+  }
+
+  // Submit Login
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById("loginErrorMessage");
+      errEl.textContent = "";
+
+      const user = document.getElementById("loginUser").value;
+      const pass = document.getElementById("loginPassword").value;
+
+      fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: user, password: pass })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Invalid username/password coordinates.");
+        return res.json();
+      })
+      .then(data => {
+        localStorage.setItem("yuyu_user", JSON.stringify(data));
+        updateAuthState();
+        closeAuthModal();
+        loginForm.reset();
+      })
+      .catch(err => {
+        errEl.textContent = err.message;
+      });
+    });
+  }
+
+  // Submit Register
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const errEl = document.getElementById("registerErrorMessage");
+      errEl.textContent = "";
+
+      const payload = {
+        username: document.getElementById("regUser").value,
+        email: document.getElementById("regEmail").value,
+        password: document.getElementById("regPassword").value,
+        fullName: document.getElementById("regName").value,
+        address: document.getElementById("regAddress").value,
+        city: document.getElementById("regCity").value,
+        zipCode: document.getElementById("regZip").value,
+        country: document.getElementById("regCountry").value
+      };
+
+      fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) {
+          return res.text().then(text => { throw new Error(text); });
+        }
+        return res.json();
+      })
+      .then(data => {
+        localStorage.setItem("yuyu_user", JSON.stringify(data));
+        updateAuthState();
+        closeAuthModal();
+        registerForm.reset();
+      })
+      .catch(err => {
+        errEl.textContent = err.message;
+      });
+    });
+  }
+
+  // Close Profile Modal
+  if (closeProfileModalBtn) closeProfileModalBtn.addEventListener("click", closeProfileModal);
+  if (profileModalBackdrop) {
+    profileModalBackdrop.addEventListener("click", (e) => {
+      if (e.target === profileModalBackdrop) closeProfileModal();
+    });
+  }
+
+  // Submit Profile update
+  if (profileForm) {
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const msgEl = document.getElementById("profileMessage");
+      msgEl.style.color = "#00e676";
+      msgEl.textContent = "";
+
+      const userJson = localStorage.getItem("yuyu_user");
+      if (!userJson) return;
+      const user = JSON.parse(userJson);
+
+      const payload = {
+        username: user.username,
+        email: document.getElementById("profEmail").value,
+        fullName: document.getElementById("profName").value,
+        address: document.getElementById("profAddress").value,
+        city: document.getElementById("profCity").value,
+        zipCode: document.getElementById("profZip").value,
+        country: document.getElementById("profCountry").value
+      };
+
+      const pass = document.getElementById("profPassword").value;
+      if (pass.trim()) {
+        payload.password = pass;
+      }
+
+      fetch("/api/auth/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) {
+          return res.text().then(text => { throw new Error(text); });
+        }
+        return res.json();
+      })
+      .then(data => {
+        localStorage.setItem("yuyu_user", JSON.stringify(data));
+        updateAuthState();
+        msgEl.textContent = "Coordinates updated successfully.";
+        document.getElementById("profPassword").value = "";
+        setTimeout(closeProfileModal, 1500);
+      })
+      .catch(err => {
+        msgEl.style.color = "#ff4d4d";
+        msgEl.textContent = err.message;
+      });
+    });
+  }
+
+  // Logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("yuyu_user");
+      updateAuthState();
+      closeProfileModal();
+      
+      // Clear checkout inputs
+      const fields = ["fullName", "shippingEmail", "addressLine1", "city", "zipCode"];
+      fields.forEach(fid => {
+        const input = document.getElementById(fid);
+        if (input) input.value = "";
+      });
+    });
+  }
+
+  // Admin Panel Dashboard triggers
+  if (adminDashboardLink) {
+    adminDashboardLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      openAdminDashboard();
+    });
+  }
+  if (closeAdminBtn) closeAdminBtn.addEventListener("click", closeAdminDashboard);
+  if (adminPanelBackdrop) {
+    adminPanelBackdrop.addEventListener("click", (e) => {
+      if (e.target === adminPanelBackdrop) closeAdminDashboard();
+    });
+  }
+
+  updateAuthState();
   renderProductsGrid();
   renderCart();
   setupCheckoutForm();

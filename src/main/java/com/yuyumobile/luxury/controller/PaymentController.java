@@ -87,6 +87,18 @@ public class PaymentController {
     }
 
     /**
+     * Lists all transactions registered in the database for the administration panel.
+     */
+    @GetMapping("/orders")
+    public ResponseEntity<?> getAllOrders() {
+        try {
+            return ResponseEntity.ok(paymentService.getAllTransactions());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    /**
      * Receives and verifies Stripe webhook events, keeping our database records synchronized.
      */
     @PostMapping("/webhook")
