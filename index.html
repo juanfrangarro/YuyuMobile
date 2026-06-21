@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONOLITH | Bespoke Flagship Smartphones & Luxury Technology</title>
+  <meta name="description" content="Discover MONOLITH. Exquisite, custom-crafted smartphones engineered with aerospace titanium, 24k gold, and sapphire crystal. Designed for the discerning few.">
+  <meta name="keywords" content="luxury smartphone, custom iPhone, bespoke mobile, gold titanium phone, exclusive smartphones, HNWI technology">
+  
+  <!-- i18n Alternate Language Links (hreflang) -->
+  <link rel="alternate" hreflang="en" href="?lang=en">
+  <link rel="alternate" hreflang="es" href="?lang=es">
+  <link rel="alternate" hreflang="ar" href="?lang=ar">
+  <link rel="alternate" hreflang="ru" href="?lang=ru">
+  <link rel="alternate" hreflang="fr" href="?lang=fr">
+  <link rel="alternate" hreflang="x-default" href="?lang=en">
+
+  <!-- Google Fonts: Outfit & Inter for elegant geometric typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Style Sheets -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- JSON-LD Structured Data Schemas -->
+  <script type="application/ld+json" id="jsonld-organization">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MONOLITH Bespoke",
+    "url": "https://yuyumobile.luxury",
+    "logo": "https://yuyumobile.luxury/assets/logo.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+44-20-7946-0192",
+      "contactType": "luxury concierge sales",
+      "areaServed": "Worldwide",
+      "availableLanguage": ["English", "Spanish", "Arabic", "Russian", "French"]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json" id="jsonld-breadcrumbs">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://yuyumobile.luxury"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Showcase",
+        "item": "https://yuyumobile.luxury/#showcase"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json" id="jsonld-product">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Monolith Titanium Gold",
+    "image": "https://yuyumobile.luxury/assets/gold-monolith.jpg",
+    "description": "Bespoke flagship smartphone crafted with solid titanium body and 24k gold plating.",
+    "brand": {
+      "@type": "Brand",
+      "name": "MONOLITH"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://yuyumobile.luxury/#monolith-gold",
+      "priceCurrency": "EUR",
+      "price": "4500.00",
+      "priceValidUntil": "2027-12-31",
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition"
+    }
+  }
+  </script>
+</head>
+<body class="theme-dark">
+
+  <!-- Premium Cursor (Custom Interaction) -->
+  <div class="custom-cursor" id="customCursor"></div>
+  <div class="custom-cursor-dot" id="customCursorDot"></div>
+
+  <!-- Header Navigation -->
+  <header class="main-header" id="siteHeader">
+    <div class="header-container">
+      <a href="#" class="brand-logo" id="brandLogo">MONOLITH</a>
+      
+      <nav class="nav-links" id="mainNav">
+        <a href="#showcase" data-t="nav_showcase">Showcase</a>
+        <a href="#features" data-t="nav_features">Specifications</a>
+        <a href="#customizer" data-t="nav_customizer">Bespoke Studio</a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Language Picker -->
+        <div class="dropdown-container language-picker">
+          <button class="icon-button lang-btn" id="langBtn" aria-label="Change language">
+            <span id="activeLangLabel">EN</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" width="14" height="14">
+              <path fill="currentColor" d="M7 10l5 5 5-5H7z"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" id="langMenu">
+            <button data-lang="en">English (EN)</button>
+            <button data-lang="es">Español (ES)</button>
+            <button data-lang="ar" class="font-arabic">العربية (AR)</button>
+            <button data-lang="fr">Français (FR)</button>
+            <button data-lang="ru">Русский (RU)</button>
+          </div>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button class="icon-button" id="themeToggle" aria-label="Toggle visual theme" title="Toggle theme">
+          <!-- Sun Icon (shown in dark theme) -->
+          <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="currentColor" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.02.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zm-12.37 12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41z"/>
+          </svg>
+          <!-- Moon Icon (shown in light theme) -->
+          <svg class="moon-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path fill="currentColor" d="M12.3 2a10 10 0 0 0-1.9 14 10 10 0 0 0 14-1.9 1 1 0 0 0-1-1.3 8 8 0 1 1-9.8-9.8 1 1 0 0 0-1.3-1z"/>
+          </svg>
+        </button>
+
+        <!-- Cart Trigger Button -->
+        <button class="icon-button cart-trigger" id="cartTrigger" aria-label="Open cart" title="Shopping Cart">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main id="mainContainer">
+
+    <!-- SHOP VIEW -->
+    <div id="shopView" class="view-panel active">
+      
+      <!-- HERO / INTERACTIVE SHOWCASE SECTION -->
+      <section class="hero-section" id="showcase">
+        <!-- Ambient Metallic Mesh Background Animation -->
+        <div class="ambient-glow" id="ambientGlow"></div>
+        
+        <div class="hero-grid">
+          <!-- Text Columns -->
+          <div class="hero-text-container">
+            <span class="eyebrow" data-t="hero_eyebrow">THE DEFINITIVE STANDARD</span>
+            <h1 class="hero-title" data-t="hero_title">Monolith<br>Bespoke Series</h1>
+            <p class="hero-subtitle" data-t="hero_subtitle">
+              Forged in pure aerospace titanium. Embellished with 24-karat gold. A testament to engineering mastery and aesthetic perfection.
+            </p>
+            
+            <!-- Specs Pill List -->
+            <div class="specs-preview-list">
+              <span class="spec-pill"><strong data-t="spec_gold_title">Gold:</strong> <span data-t="spec_gold_val">24K Electroplating</span></span>
+              <span class="spec-pill"><strong data-t="spec_glass_title">Glass:</strong> <span data-t="spec_glass_val">Sapphire Crystal</span></span>
+              <span class="spec-pill"><strong data-t="spec_core_title">Core:</strong> <span data-t="spec_core_val">Custom Monolith A1</span></span>
+            </div>
+
+            <!-- Call to Actions -->
+            <div class="hero-actions-container">
+              <button class="btn btn-primary btn-gold" id="heroBuyBtn">
+                <span class="btn-text" data-t="btn_acquire">Acquire Now</span>
+                <span class="btn-shimmer"></span>
+              </button>
+              <a href="#customizer" class="btn btn-secondary btn-platinum">
+                <span class="btn-text" data-t="btn_configure">Configure Bespoke</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- 3D Interactive Canvas Showcase -->
+          <div class="hero-canvas-container" id="canvasWrapper">
+            <canvas id="luxuryCanvas" width="600" height="600" aria-label="3D Interactive Luxury Smartphone Showcase"></canvas>
+            <div class="canvas-instruction" data-t="canvas_instruction">Hover to rotate & reflect lighting</div>
+            
+            <!-- Configurator controls in Hero area -->
+            <div class="canvas-color-selectors" id="heroColorSelector">
+              <button class="color-btn active" data-color="gold" title="Titanium Gold" style="background: linear-gradient(135deg, #DFBA73 0%, #C5A059 100%);"></button>
+              <button class="color-btn" data-color="obsidian" title="Obsidian Black" style="background: linear-gradient(135deg, #1C1C1E 0%, #070707 100%);"></button>
+              <button class="color-btn" data-color="platinum" title="Platinum Aurora" style="background: linear-gradient(135deg, #E5E5E5 0%, #A2A2A2 100%);"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARTISANSHIP / FEATURES SECTION -->
+      <section class="features-section" id="features">
+        <div class="section-header">
+          <span class="eyebrow" data-t="features_eyebrow">METICULOUSLY CRAFTED</span>
+          <h2 class="section-title" data-t="features_title">Exceptional Raw Elements</h2>
+        </div>
+
+        <div class="features-grid">
+          <!-- Feature Card 1 -->
+          <div class="feature-card">
+            <div class="feature-icon-container">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+              </svg>
+            </div>
+            <h3 class="feature-card-title" data-t="feat_titanium_title">Grade 5 Titanium Body</h3>
+            <p class="feature-card-desc" data-t="feat_titanium_desc">Engineered with the same ultra-strong, lightweight titanium alloy used in aerospace deep-space crafts. Satin-brushed by hand.</p>
+          </div>
+
+          <!-- Feature Card 2 -->
+          <div class="feature-card">
+            <div class="feature-icon-container">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+              </svg>
+            </div>
+            <h3 class="feature-card-title" data-t="feat_gold_title">24K Gold Plated Accents</h3>
+            <p class="feature-card-desc" data-t="feat_gold_desc">Gilded with custom 24-karat gold electroplating. Every millimeter is polished to a flawless mirror finish by Swiss horology experts.</p>
+          </div>
+
+          <!-- Feature Card 3 -->
+          <div class="feature-card">
+            <div class="feature-icon-container">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3M12 5.25l3.75 3.75M12 18.75l-3.75-3.75M18.75 12l-3.75-3.75M5.25 12l3.75 3.75" />
+              </svg>
+            </div>
+            <h3 class="feature-card-title" data-t="feat_sapphire_title">Bespoke Sapphire Screen</h3>
+            <p class="feature-card-desc" data-t="feat_sapphire_desc">A custom-cut screen layer made of continuous sapphire crystal, providing total scratch immunity and unprecedented visual clarity.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXCLUSIVE PRODUCT GRID SECTION -->
+      <section class="products-section" id="customizer">
+        <div class="section-header">
+          <span class="eyebrow" data-t="products_eyebrow">EXCLUSIVE CONFIGURATIONS</span>
+          <h2 class="section-title" data-t="products_title">Choose Your Masterpiece</h2>
+        </div>
+
+        <div class="products-grid" id="productsGridContainer">
+          <!-- Products will be dynamically generated by JS for absolute control, standard fallback template exists in SEO schema -->
+        </div>
+      </section>
+    </div>
+
+    <!-- CHECKOUT VIEW -->
+    <div id="checkoutView" class="view-panel">
+      <section class="checkout-section">
+        <div class="checkout-header-action">
+          <button class="back-link-btn" id="backToShopBtn">
+            <svg viewBox="0 0 24 24" width="16" height="16" class="back-arrow-icon">
+              <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span data-t="back_to_studio">Back to Bespoke Studio</span>
+          </button>
+        </div>
+
+        <div class="checkout-layout">
+          <!-- Checkout Form Column -->
+          <div class="checkout-form-container">
+            <h2 class="checkout-title" data-t="secure_checkout">Secure Acquisition</h2>
+            
+            <form id="checkoutForm" novalidate>
+              <!-- Express Payment Options -->
+              <div class="express-checkout-container">
+                <span class="express-title" data-t="express_payment">Express Checkout</span>
+                <div class="express-buttons-grid">
+                  <button type="button" class="btn-express btn-apple-pay" id="applePayBtn">
+                    <span class="brand-text"> Pay</span>
+                  </button>
+                  <button type="button" class="btn-express btn-google-pay" id="googlePayBtn">
+                    <span class="brand-text">Google Pay</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="checkout-divider">
+                <span data-t="or_card_payment">or proceed with secured card payment</span>
+              </div>
+
+              <!-- Shipping details -->
+              <div class="form-section-title" data-t="shipping_details">Delivery Coordinates</div>
+              <div class="form-grid">
+                <div class="form-field full-width">
+                  <label for="fullName" data-t="label_full_name">Full Name</label>
+                  <input type="text" id="fullName" required placeholder="e.g. Sir Julian Sterling">
+                  <span class="field-error" data-t="err_field_required">This coordinate is required.</span>
+                </div>
+                
+                <div class="form-field">
+                  <label for="shippingEmail" data-t="label_email">Concierge Email</label>
+                  <input type="email" id="shippingEmail" required placeholder="name@domain.com">
+                  <span class="field-error" data-t="err_invalid_email">Please input a valid email.</span>
+                </div>
+                <div class="form-field">
+                  <label for="shippingPhone" data-t="label_phone">Secure Mobile</label>
+                  <input type="tel" id="shippingPhone" required placeholder="+1 (555) 019-2834">
+                  <span class="field-error" data-t="err_field_required">This coordinate is required.</span>
+                </div>
+
+                <div class="form-field full-width">
+                  <label for="addressLine1" data-t="label_address">Address Line 1</label>
+                  <input type="text" id="addressLine1" required placeholder="Suite or Estate, Street Details">
+                  <span class="field-error" data-t="err_field_required">This coordinate is required.</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="city" data-t="label_city">City</label>
+                  <input type="text" id="city" required placeholder="Geneva">
+                  <span class="field-error" data-t="err_field_required">This coordinate is required.</span>
+                </div>
+                <div class="form-field">
+                  <label for="zipCode" data-t="label_zip">Postal Code</label>
+                  <input type="text" id="zipCode" required placeholder="1201">
+                  <span class="field-error" data-t="err_field_required">This coordinate is required.</span>
+                </div>
+                
+                <div class="form-field full-width">
+                  <label for="countrySelect" data-t="label_country">Country/Region</label>
+                  <select id="countrySelect" required>
+                    <option value="US">United States</option>
+                    <option value="CH" selected>Switzerland</option>
+                    <option value="AE">United Arab Emirates</option>
+                    <option value="ES">Spain</option>
+                    <option value="FR">France</option>
+                    <option value="RU">Russian Federation</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Premium Packaging Selection -->
+              <div class="packaging-selector-card">
+                <div class="packaging-text">
+                  <h4 data-t="pack_premium_title">Bespoke Royal Packaging (+150 €)</h4>
+                  <p data-t="pack_premium_desc">Includes hand-polished Solid Oak Chest, embossed gold leaf certification plate, and white glove courier delivery.</p>
+                </div>
+                <div class="packaging-checkbox-wrapper">
+                  <label class="custom-checkbox">
+                    <input type="checkbox" id="premiumPackagingToggle">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Credit Card Payment Section (Stripe ready) -->
+              <div class="form-section-title" data-t="payment_method">Payment Information</div>
+              <div class="payment-card-input-wrapper">
+                <!-- Stripe-like card details field -->
+                <div class="stripe-mock-field">
+                  <div class="stripe-card-header">
+                    <span data-t="secured_stripe">Secured via Stripe Payment Network</span>
+                    <div class="accepted-cards-row">
+                      <span class="card-icon visa" title="Visa"></span>
+                      <span class="card-icon mastercard" title="Mastercard"></span>
+                      <span class="card-icon amex" title="American Express"></span>
+                    </div>
+                  </div>
+
+                  <div class="stripe-card-body">
+                    <div class="stripe-input-row">
+                      <div class="stripe-input-field card-number-field">
+                        <label for="cardNumber" data-t="card_num">Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="4111 2222 3333 4444" maxlength="19" required>
+                        <span class="card-brand-indicator" id="cardBrandIndicator"></span>
+                      </div>
+                    </div>
+                    <div class="stripe-input-row half-split">
+                      <div class="stripe-input-field">
+                        <label for="cardExpiry" data-t="card_exp">Expiry</label>
+                        <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+                      </div>
+                      <div class="stripe-input-field">
+                        <label for="cardCvc" data-t="card_cvc">CVC</label>
+                        <input type="text" id="cardCvc" placeholder="123" maxlength="4" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="payment-errors" id="paymentErrors"></div>
+              </div>
+
+              <!-- Checkout Submit CTA -->
+              <button type="submit" class="btn btn-primary btn-gold btn-block" id="paySubmitBtn">
+                <span class="btn-text" id="payButtonText" data-t="btn_pay">Authorize Acquisition</span>
+                <span class="btn-shimmer"></span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Checkout Order Summary Column -->
+          <div class="checkout-summary-container">
+            <h3 class="summary-title" data-t="acquisition_summary">Acquisition Summary</h3>
+            
+            <div class="summary-items-list" id="checkoutItemsList">
+              <!-- Dynamically populated checkout items -->
+            </div>
+
+            <div class="summary-financials">
+              <div class="summary-line">
+                <span data-t="summary_subtotal">Subtotal</span>
+                <span id="summarySubtotal">0,00 €</span>
+              </div>
+              <div class="summary-line">
+                <span data-t="summary_packaging">Royal Packaging</span>
+                <span id="summaryPackaging">0,00 €</span>
+              </div>
+              <div class="summary-line highlight-tax">
+                <span data-t="summary_insurance">Premium Transport & Insurance</span>
+                <span data-t="free">Complimentary</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-line total-price">
+                <span data-t="summary_total">Total Value</span>
+                <span id="summaryTotal">0,00 €</span>
+              </div>
+            </div>
+
+            <!-- Trust signals -->
+            <div class="trust-badge-container">
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <div class="badge-text">
+                  <strong data-t="trust_1_title">End-to-End Encryption</strong>
+                  <span data-t="trust_1_desc">Every payment transaction is tokenized and cryptographically secured.</span>
+                </div>
+              </div>
+              <div class="trust-badge">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                <div class="badge-text">
+                  <strong data-t="trust_2_title">Concierge Delivery</strong>
+                  <span data-t="trust_2_desc">Hand-delivered worldwide under thermal and impact insurance.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Slide-out Cart Drawer -->
+  <div class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle" aria-hidden="true">
+    <div class="cart-drawer-container">
+      <div class="cart-drawer-header">
+        <h2 id="cartDrawerTitle" data-t="cart_title">Your Allocation</h2>
+        <button class="close-drawer-btn" id="closeCartBtn" aria-label="Close cart drawer">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Scrollable Cart Content -->
+      <div class="cart-drawer-body">
+        <div class="cart-empty-message" id="cartEmptyState">
+          <p data-t="cart_empty">No creations selected.</p>
+          <button class="btn btn-secondary btn-platinum" id="continueShoppingBtn" data-t="btn_return_studio">Return to Studio</button>
+        </div>
+        
+        <div class="cart-items-wrapper" id="cartItemsList">
+          <!-- Dynamically populated items -->
+        </div>
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="cart-drawer-footer" id="cartFooterSection">
+        <div class="footer-summary-row">
+          <span data-t="cart_subtotal">Estimated Total</span>
+          <span class="summary-subtotal-price" id="cartSubtotal">0,00 €</span>
+        </div>
+        <p class="cart-terms-note" data-t="cart_disclaimer">Complimentary insured delivery is applied to all Monolith shipments.</p>
+        <button class="btn btn-primary btn-gold btn-block" id="checkoutBtn">
+          <span class="btn-text" data-t="btn_checkout">Proceed to Acquisition</span>
+          <span class="btn-shimmer"></span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Checkout Success Modal Overlay -->
+  <div class="modal-backdrop" id="successModalBackdrop">
+    <div class="success-modal-card">
+      <div class="success-icon-badge">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+        </svg>
+      </div>
+      <h3 class="success-title" data-t="order_success_title">Acquisition Authorized</h3>
+      <p class="success-message" data-t="order_success_desc">Your request has been routed to our global logistics team. A luxury concierge will contact you within 15 minutes to confirm your coordinate delivery.</p>
+      
+      <div class="order-receipt-card">
+        <div class="receipt-row">
+          <span data-t="receipt_id">Order Reference</span>
+          <strong id="receiptId">#MN-88402</strong>
+        </div>
+        <div class="receipt-row">
+          <span data-t="receipt_amount">Amount Settled</span>
+          <strong id="receiptAmount">0,00 €</strong>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary btn-gold btn-block" id="successCloseBtn" data-t="btn_done">Close Showcase</button>
+    </div>
+  </div>
+
+  <!-- Premium Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand-section">
+        <span class="footer-logo">MONOLITH</span>
+        <p class="footer-brand-tagline" data-t="footer_tagline">Forging the intersection between engineering excellence and structural beauty.</p>
+      </div>
+
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" data-t="foot_col_creations">Creations</h4>
+          <a href="#" data-t="foot_gold">Gold Monolith</a>
+          <a href="#" data-t="foot_obsidian">Obsidian Titanium</a>
+          <a href="#" data-t="foot_platinum">Platinum Custom</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" data-t="foot_col_services">Concierge Services</h4>
+          <a href="#" data-t="foot_delivery">Insured Transit</a>
+          <a href="#" data-t="foot_support">Privileged Support</a>
+          <a href="#" data-t="foot_bespoke">Bespoke Engraving</a>
+        </div>
+        <div class="footer-links-col">
+          <h4 class="footer-col-title" data-t="foot_col_legal">Corporate</h4>
+          <a href="#" data-t="foot_privacy">Privacy Protocol</a>
+          <a href="#" data-t="foot_terms">Terms of Acquisition</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom-container">
+      <div class="footer-bottom">
+        <p class="copyright-text">&copy; 2026 MONOLITH Bespoke Inc. <span data-t="all_rights_reserved">All rights reserved.</span></p>
+        <div class="payment-credentials-row">
+          <span class="pay-logo-badge visa" title="Visa Checkout"></span>
+          <span class="pay-logo-badge mastercard" title="Mastercard Identity Check"></span>
+          <span class="pay-logo-badge amex" title="American Express SafeKey"></span>
+          <span class="pay-logo-badge applepay" title="Apple Pay Integration ready"></span>
+          <span class="pay-logo-badge googlepay" title="Google Pay Verified"></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Modules -->
+  <script src="seo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
