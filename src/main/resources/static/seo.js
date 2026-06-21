@@ -1,5 +1,5 @@
 /**
- * MONOLITH E-commerce SEO Metadata Module
+ * YUYU MOBILE E-commerce SEO Metadata Module
  * Dynamically updates JSON-LD Schemas based on active language settings.
  */
 
@@ -10,20 +10,20 @@ window.updateSeoMetadata = (lang, products) => {
   const isRu = lang === "ru";
 
   // Translate brand description & localized details
-  let orgName = "MONOLITH Bespoke";
-  let orgDesc = "Bespoke flagship smartphone manufacturer and custom luxury technology studio.";
+  let orgName = "YUYU MOBILE";
+  let orgDesc = "Certified pre-owned luxury smartphones and premium mobile restoration concierge.";
   if (isAr) {
-    orgName = "دار مونوليث للتصميم المخصص";
-    orgDesc = "دار الهواتف الذكية الفاخرة والمخصصة وتكنولوجيا النخبة الاستثنائية.";
+    orgName = "يويو موبايل";
+    orgDesc = "هواتف ذكية فاخرة مستعملة ومعتمدة وخدمات صيانة وترميم الهواتف الفاخرة النخبوية.";
   } else if (isEs) {
-    orgName = "MONOLITH Bespoke Inc.";
-    orgDesc = "Fabricante de teléfonos inteligentes insignia personalizados y estudio de tecnología de lujo.";
+    orgName = "YUYU MOBILE";
+    orgDesc = "Teléfonos inteligentes de lujo seminuevos certificados y concierge de restauración móvil premium.";
   } else if (isFr) {
-    orgName = "MONOLITH Bespoke SARL";
-    orgDesc = "Fabricant de smartphones d'exception sur mesure et studio de technologie de luxe.";
+    orgName = "YUYU MOBILE";
+    orgDesc = "Smartphones de luxe d'occasion certifiés et service conciergerie de restauration mobile premium.";
   } else if (isRu) {
-    orgName = "MONOLITH Bespoke";
-    orgDesc = "Производитель эксклюзивных флагманских смартфонов и кастомной техники класса люкс.";
+    orgName = "YUYU MOBILE";
+    orgDesc = "Сертифицированные б/у смартфоны класса люкс и премиальный консьерж-сервис реставрации техники.";
   }
 
   // 1. Update Organization Schema
@@ -35,8 +35,8 @@ window.updateSeoMetadata = (lang, products) => {
     "url": window.location.origin + window.location.pathname,
     "logo": window.location.origin + window.location.pathname + "assets/logo.png",
     "sameAs": [
-      "https://www.instagram.com/monolith.bespoke",
-      "https://twitter.com/monolithbespoke"
+      "https://www.instagram.com/yuyumobile.luxury",
+      "https://twitter.com/yuyumobile"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
@@ -94,22 +94,22 @@ window.updateSeoMetadata = (lang, products) => {
   }
 
   // 3. Update Product Schema (using primary flagship product data)
-  const defaultProduct = products[0]; // Monolith Titanium Gold
+  const defaultProduct = products[0]; // Apple iPhone 15 Pro Max (Custom Gold)
   if (defaultProduct) {
     let prodName = defaultProduct.name;
     let prodDesc = defaultProduct.desc;
     if (isAr) {
-      prodName = "مونوليث الذهبي بيسبوك";
-      prodDesc = "تحفة فنية فريدة من نوعها مطلية بذهب عيار 24 قيراط ومصنوعة من التيتانيوم الصلب الفاخر.";
+      prodName = "آيفون 15 برو ماكس الذهبي المعتمد";
+      prodDesc = "تحفة فنية مستعملة ومعتمدة كلياً مطلية بذهب عيار 24 قيراط ومصنوعة من التيتانيوم الصلب الفاخر.";
     } else if (isEs) {
-      prodName = "Monolith de Oro Bespoke";
-      prodDesc = "Una impresionante obra de arte personalizada con baño de oro de 24 quilates y cuerpo de titanio macizo.";
+      prodName = "Apple iPhone 15 Pro Max (Oro Personalizado)";
+      prodDesc = "Smartphone de lujo seminuevo certificado con cuerpo de titanio y baño de oro de 24 quilates.";
     } else if (isFr) {
-      prodName = "Monolith Or Bespoke";
-      prodDesc = "Une œuvre d'art exceptionnelle plaquée or 24 carats sur châssis en titane massif.";
+      prodName = "Apple iPhone 15 Pro Max (Or Custom)";
+      prodDesc = "Smartphone d'occasion certifié de luxe avec châssis en titane et placage en or 24 carats.";
     } else if (isRu) {
-      prodName = "Золотой Monolith Bespoke";
-      prodDesc = "Потрясающий шедевр ручной работы с гальваническим покрытием из золота 24К на титановом каркасе.";
+      prodName = "Apple iPhone 15 Pro Max (Кастомное Золото)";
+      prodDesc = "Сертифицированный б/у люксовый смартфон в корпусе из титана с гальваническим покрытием золотом 24К.";
     }
 
     const productSchema = {
@@ -118,11 +118,11 @@ window.updateSeoMetadata = (lang, products) => {
       "name": prodName,
       "image": window.location.origin + window.location.pathname + "assets/gold-monolith.jpg",
       "description": prodDesc,
-      "sku": "MN-TIT-GOLD-01",
-      "mpn": "MN-TIT-GOLD-01",
+      "sku": "YY-IP15PM-GOLD",
+      "mpn": "YY-IP15PM-GOLD",
       "brand": {
         "@type": "Brand",
-        "name": "MONOLITH"
+        "name": "YUYU MOBILE"
       },
       "offers": {
         "@type": "Offer",
@@ -131,7 +131,7 @@ window.updateSeoMetadata = (lang, products) => {
         "price": defaultProduct.price.toFixed(2),
         "priceValidUntil": "2027-12-31",
         "availability": "https://schema.org/InStock",
-        "itemCondition": "https://schema.org/NewCondition"
+        "itemCondition": "https://schema.org/RefurbishedCondition"
       }
     };
 

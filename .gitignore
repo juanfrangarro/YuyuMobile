@@ -1,0 +1,15 @@
+/target/
+/tools/
+*.class
+*.jar
+*.war
+*.ear
+*.tar.gz
+*.zip
+.project
+.classpath
+.settings/
+.idea/
+*.iml
+*.iws
+.DS_Store
